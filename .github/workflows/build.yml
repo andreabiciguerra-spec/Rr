@@ -1,0 +1,27 @@
+name: Compilar Transformers
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar proyecto
+        uses: actions/checkout@v3
+      
+      - name: Instalar Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: Preparar Gradle
+        uses: gradle/gradle-build-action@v2
+      
+      - name: Compilar mod
+        run: ./gradlew build
+      
+      - name: Subir JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: Transformers-Moto
+          path: build/libs/*.jar
